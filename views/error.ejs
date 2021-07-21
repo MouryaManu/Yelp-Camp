@@ -5,6 +5,9 @@
     <div class="col-6 offset-3">
 <div class="alert alert-danger" role='alert'>
 <h3 class="alert-heading"><%= err.message %></h3>
+<% if(process.env.NODE_ENV !== "production") {  %> 
+    <p> <%=err.stack %></p>
+<% }%>
 <p>Aww yeah, you have encountered an error due to some incorrect type of data you have entered or you are trying to search for something which is not defined!!. Kindly check the credentials you have entered. </p>
 <hr>
 <p class="mb-0">Wherever you wanna go, be sure of it</p>
