@@ -29,9 +29,36 @@ const reviewRoutes= require('./routes/reviews');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet= require('helmet');
 
+
+const MongoStore = require('connect-mongo');
+
+
+const dbUrl= process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
+
+const secret= process.env.SECRET || 'secret';
+
+const store=  MongoStore.create({
+    
+    mongoUrl: dbUrl, 
+    secret,
+    touchAfter: 24 * 60 * 60   //update sessions every 24 hrs
+});
+
+store.on("error",function(e) {
+    console.log("SESSION STORE ERROR",e);
+})
+
 const sessionConfig ={
+    store,
     name: 'session',
-    secret: 'secret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -43,12 +70,7 @@ const sessionConfig ={
 }
 
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-});
+
 
 const db=  mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
