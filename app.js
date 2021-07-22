@@ -199,7 +199,7 @@ app.use((err,req,res,next) => {
    // res.send('Oh Boy!! There is an error!!!');
 })
 
+const port= process.env.PORT || 3000;
 
 
-
-app.listen(3000,() => { console.log("Connected")})
+app.listen(port,() => { console.log(`Connected on port ${port}`)})
