@@ -44,12 +44,12 @@ mongoose.connect(dbUrl, {
 
 const secret= process.env.SECRET || 'secret';
 
-const store=  MongoStore.create({
+// const store=  MongoStore.create({
     
-    mongoUrl: dbUrl, 
-    secret,
-    touchAfter: 24 * 60 * 60   //update sessions every 24 hrs
-});
+//     mongoUrl: dbUrl, 
+//     secret,
+//     touchAfter: 24 * 60 * 60   //update sessions every 24 hrs
+// });
 
 store.on("error",function(e) {
     console.log("SESSION STORE ERROR",e);
